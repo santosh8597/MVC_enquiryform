@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EnquirydbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tblCandidateDetail">
+    <Key>
+      <PropertyRef Name="Candidate_id" />
+    </Key>
+    <Property Name="Candidate_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Candidate_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Mobile" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="emailId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tblEnquiryDetails" Relationship="Self.sd" FromRole="tblCandidateDetails" ToRole="tblEnquiryDetails" />
+    <NavigationProperty Name="tblEducationDetails" Relationship="EnquirydbModel.jkl" FromRole="tblCandidateDetail" ToRole="tblEducationDetail" />
+  </EntityType>
+  <EntityType Name="tblEnquiry">
+    <Key>
+      <PropertyRef Name="Enquiry_id" />
+    </Key>
+    <Property Name="Enquiry_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Enquiry_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tblEnquiryDetail">
+    <Key>
+      <PropertyRef Name="Enquiry_id" />
+    </Key>
+    <Property Name="Enquiry_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Candidate_id" Type="Int32" />
+    <Property Name="Enquiry_Date" Type="DateTime" Precision="0" />
+    <Property Name="EnquiryFor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Lead_sources" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="EnquiryBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tblCandidateDetail" Relationship="Self.sd" FromRole="tblEnquiryDetails" ToRole="tblCandidateDetails" />
+  </EntityType>
+  <EntityType Name="tblInformation">
+    <Key>
+      <PropertyRef Name="Information_id" />
+    </Key>
+    <Property Name="Information_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Information_form" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tblTraining">
+    <Key>
+      <PropertyRef Name="Training_id" />
+    </Key>
+    <Property Name="Training_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Training_course" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="viewDetail">
+    <Key>
+      <PropertyRef Name="Candidate_id" />
+      <PropertyRef Name="Enquiry_id" />
+    </Key>
+    <Property Name="Candidate_id" Type="Int32" Nullable="false" />
+    <Property Name="Candidate_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Mobile" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="emailId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Enquiry_id" Type="Int32" Nullable="false" />
+    <Property Name="Enquiry_Date" Type="DateTime" Precision="0" />
+    <Property Name="EnquiryFor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Lead_sources" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="EnquiryBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="sd">
+    <End Role="tblCandidateDetails" Type="Self.tblCandidateDetail" Multiplicity="0..1" />
+    <End Role="tblEnquiryDetails" Type="Self.tblEnquiryDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCandidateDetails">
+        <PropertyRef Name="Candidate_id" />
+      </Principal>
+      <Dependent Role="tblEnquiryDetails">
+        <PropertyRef Name="Candidate_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EnquirydbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tblCandidateDetails" EntityType="Self.tblCandidateDetail" />
+    <EntitySet Name="tblEnquiries" EntityType="Self.tblEnquiry" />
+    <EntitySet Name="tblEnquiryDetails" EntityType="Self.tblEnquiryDetail" />
+    <EntitySet Name="tblInformations" EntityType="Self.tblInformation" />
+    <EntitySet Name="tblTrainings" EntityType="Self.tblTraining" />
+    <EntitySet Name="viewDetails" EntityType="Self.viewDetail" />
+    <AssociationSet Name="sd" Association="Self.sd">
+      <End Role="tblCandidateDetails" EntitySet="tblCandidateDetails" />
+      <End Role="tblEnquiryDetails" EntitySet="tblEnquiryDetails" />
+    </AssociationSet>
+    <EntitySet Name="tblEducationDetails" EntityType="EnquirydbModel.tblEducationDetail" />
+    <AssociationSet Name="jkl" Association="EnquirydbModel.jkl">
+      <End Role="tblCandidateDetail" EntitySet="tblCandidateDetails" />
+      <End Role="tblEducationDetail" EntitySet="tblEducationDetails" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="tblEducationDetail">
+    <Key>
+      <PropertyRef Name="Education_id" />
+    </Key>
+    <Property Name="Education_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Candidate_id" Type="Int32" />
+    <Property Name="University" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Passing_year" Type="Int32" />
+    <Property Name="Qualification" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Specialization" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SpecilazationCourse" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Medium" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Percentage" Type="Double" />
+    <Property Name="Institute_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tblCandidateDetail" Relationship="EnquirydbModel.jkl" FromRole="tblEducationDetail" ToRole="tblCandidateDetail" />
+  </EntityType>
+  <Association Name="jkl">
+    <End Type="EnquirydbModel.tblCandidateDetail" Role="tblCandidateDetail" Multiplicity="0..1" />
+    <End Type="EnquirydbModel.tblEducationDetail" Role="tblEducationDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCandidateDetail">
+        <PropertyRef Name="Candidate_id" />
+      </Principal>
+      <Dependent Role="tblEducationDetail">
+        <PropertyRef Name="Candidate_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

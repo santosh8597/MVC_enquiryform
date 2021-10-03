@@ -1,0 +1,367 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EnquirydbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblCandidateDetails">
+          <Key>
+            <PropertyRef Name="Candidate_id" />
+          </Key>
+          <Property Name="Candidate_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Candidate_name" Type="varchar" MaxLength="100" />
+          <Property Name="Mobile" Type="varchar" MaxLength="100" />
+          <Property Name="Address" Type="varchar" MaxLength="100" />
+          <Property Name="emailId" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="tblEducationDetails">
+          <Key>
+            <PropertyRef Name="Education_id" />
+          </Key>
+          <Property Name="Education_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Candidate_id" Type="int" />
+          <Property Name="University" Type="varchar" MaxLength="100" />
+          <Property Name="Passing_year" Type="int" />
+          <Property Name="Qualification" Type="varchar" MaxLength="100" />
+          <Property Name="Specialization" Type="varchar" MaxLength="100" />
+          <Property Name="SpecilazationCourse" Type="varchar" MaxLength="100" />
+          <Property Name="Medium" Type="varchar" MaxLength="100" />
+          <Property Name="Percentage" Type="float" />
+          <Property Name="Institute_name" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="tblEnquiry">
+          <Key>
+            <PropertyRef Name="Enquiry_id" />
+          </Key>
+          <Property Name="Enquiry_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Enquiry_name" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="tblEnquiryDetails">
+          <Key>
+            <PropertyRef Name="Enquiry_id" />
+          </Key>
+          <Property Name="Enquiry_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Candidate_id" Type="int" />
+          <Property Name="Enquiry_Date" Type="date" />
+          <Property Name="EnquiryFor" Type="varchar" MaxLength="100" />
+          <Property Name="Lead_sources" Type="varchar" MaxLength="100" />
+          <Property Name="EnquiryBy" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="tblInformation">
+          <Key>
+            <PropertyRef Name="Information_id" />
+          </Key>
+          <Property Name="Information_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Information_form" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="tblTraining">
+          <Key>
+            <PropertyRef Name="Training_id" />
+          </Key>
+          <Property Name="Training_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Training_course" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Enquirydb.dbo.viewDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="viewDetails">
+          <Key>
+            <PropertyRef Name="Candidate_id" />
+            <PropertyRef Name="Enquiry_id" />
+          </Key>
+          <Property Name="Candidate_id" Type="int" Nullable="false" />
+          <Property Name="Candidate_name" Type="varchar" MaxLength="100" />
+          <Property Name="Mobile" Type="varchar" MaxLength="100" />
+          <Property Name="Address" Type="varchar" MaxLength="100" />
+          <Property Name="emailId" Type="varchar" MaxLength="100" />
+          <Property Name="Enquiry_id" Type="int" Nullable="false" />
+          <Property Name="Enquiry_Date" Type="date" />
+          <Property Name="EnquiryFor" Type="varchar" MaxLength="100" />
+          <Property Name="Lead_sources" Type="varchar" MaxLength="100" />
+          <Property Name="EnquiryBy" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="jkl">
+          <End Role="tblCandidateDetails" Type="Self.tblCandidateDetails" Multiplicity="0..1" />
+          <End Role="tblEducationDetails" Type="Self.tblEducationDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCandidateDetails">
+              <PropertyRef Name="Candidate_id" />
+            </Principal>
+            <Dependent Role="tblEducationDetails">
+              <PropertyRef Name="Candidate_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="sd">
+          <End Role="tblCandidateDetails" Type="Self.tblCandidateDetails" Multiplicity="0..1" />
+          <End Role="tblEnquiryDetails" Type="Self.tblEnquiryDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCandidateDetails">
+              <PropertyRef Name="Candidate_id" />
+            </Principal>
+            <Dependent Role="tblEnquiryDetails">
+              <PropertyRef Name="Candidate_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EnquirydbModelStoreContainer">
+          <EntitySet Name="tblCandidateDetails" EntityType="Self.tblCandidateDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblEducationDetails" EntityType="Self.tblEducationDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblEnquiry" EntityType="Self.tblEnquiry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblEnquiryDetails" EntityType="Self.tblEnquiryDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblInformation" EntityType="Self.tblInformation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTraining" EntityType="Self.tblTraining" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="viewDetails" EntityType="Self.viewDetails" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [viewDetails].[Candidate_id] AS [Candidate_id], 
+    [viewDetails].[Candidate_name] AS [Candidate_name], 
+    [viewDetails].[Mobile] AS [Mobile], 
+    [viewDetails].[Address] AS [Address], 
+    [viewDetails].[emailId] AS [emailId], 
+    [viewDetails].[Enquiry_id] AS [Enquiry_id], 
+    [viewDetails].[Enquiry_Date] AS [Enquiry_Date], 
+    [viewDetails].[EnquiryFor] AS [EnquiryFor], 
+    [viewDetails].[Lead_sources] AS [Lead_sources], 
+    [viewDetails].[EnquiryBy] AS [EnquiryBy]
+    FROM [dbo].[viewDetails] AS [viewDetails]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="jkl" Association="Self.jkl">
+            <End Role="tblCandidateDetails" EntitySet="tblCandidateDetails" />
+            <End Role="tblEducationDetails" EntitySet="tblEducationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="sd" Association="Self.sd">
+            <End Role="tblCandidateDetails" EntitySet="tblCandidateDetails" />
+            <End Role="tblEnquiryDetails" EntitySet="tblEnquiryDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EnquirydbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblCandidateDetail">
+          <Key>
+            <PropertyRef Name="Candidate_id" />
+          </Key>
+          <Property Name="Candidate_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Candidate_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="emailId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblEnquiryDetails" Relationship="Self.sd" FromRole="tblCandidateDetails" ToRole="tblEnquiryDetails" />
+          <NavigationProperty Name="tblEducationDetails" Relationship="EnquirydbModel.jkl" FromRole="tblCandidateDetail" ToRole="tblEducationDetail" />
+        </EntityType>
+        <EntityType Name="tblEnquiry">
+          <Key>
+            <PropertyRef Name="Enquiry_id" />
+          </Key>
+          <Property Name="Enquiry_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Enquiry_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblEnquiryDetail">
+          <Key>
+            <PropertyRef Name="Enquiry_id" />
+          </Key>
+          <Property Name="Enquiry_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Candidate_id" Type="Int32" />
+          <Property Name="Enquiry_Date" Type="DateTime" Precision="0" />
+          <Property Name="EnquiryFor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Lead_sources" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EnquiryBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblCandidateDetail" Relationship="Self.sd" FromRole="tblEnquiryDetails" ToRole="tblCandidateDetails" />
+        </EntityType>
+        <EntityType Name="tblInformation">
+          <Key>
+            <PropertyRef Name="Information_id" />
+          </Key>
+          <Property Name="Information_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Information_form" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblTraining">
+          <Key>
+            <PropertyRef Name="Training_id" />
+          </Key>
+          <Property Name="Training_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Training_course" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="viewDetail">
+          <Key>
+            <PropertyRef Name="Candidate_id" />
+            <PropertyRef Name="Enquiry_id" />
+          </Key>
+          <Property Name="Candidate_id" Type="Int32" Nullable="false" />
+          <Property Name="Candidate_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="emailId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Enquiry_id" Type="Int32" Nullable="false" />
+          <Property Name="Enquiry_Date" Type="DateTime" Precision="0" />
+          <Property Name="EnquiryFor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Lead_sources" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EnquiryBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="sd">
+          <End Role="tblCandidateDetails" Type="Self.tblCandidateDetail" Multiplicity="0..1" />
+          <End Role="tblEnquiryDetails" Type="Self.tblEnquiryDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCandidateDetails">
+              <PropertyRef Name="Candidate_id" />
+            </Principal>
+            <Dependent Role="tblEnquiryDetails">
+              <PropertyRef Name="Candidate_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EnquirydbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblCandidateDetails" EntityType="Self.tblCandidateDetail" />
+          <EntitySet Name="tblEnquiries" EntityType="Self.tblEnquiry" />
+          <EntitySet Name="tblEnquiryDetails" EntityType="Self.tblEnquiryDetail" />
+          <EntitySet Name="tblInformations" EntityType="Self.tblInformation" />
+          <EntitySet Name="tblTrainings" EntityType="Self.tblTraining" />
+          <EntitySet Name="viewDetails" EntityType="Self.viewDetail" />
+          <AssociationSet Name="sd" Association="Self.sd">
+            <End Role="tblCandidateDetails" EntitySet="tblCandidateDetails" />
+            <End Role="tblEnquiryDetails" EntitySet="tblEnquiryDetails" />
+          </AssociationSet>
+          <EntitySet Name="tblEducationDetails" EntityType="EnquirydbModel.tblEducationDetail" />
+          <AssociationSet Name="jkl" Association="EnquirydbModel.jkl">
+            <End Role="tblCandidateDetail" EntitySet="tblCandidateDetails" />
+            <End Role="tblEducationDetail" EntitySet="tblEducationDetails" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="tblEducationDetail">
+          <Key>
+            <PropertyRef Name="Education_id" />
+          </Key>
+          <Property Name="Education_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Candidate_id" Type="Int32" />
+          <Property Name="University" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Passing_year" Type="Int32" />
+          <Property Name="Qualification" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Specialization" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SpecilazationCourse" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Medium" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Percentage" Type="Double" />
+          <Property Name="Institute_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblCandidateDetail" Relationship="EnquirydbModel.jkl" FromRole="tblEducationDetail" ToRole="tblCandidateDetail" />
+        </EntityType>
+        <Association Name="jkl">
+          <End Type="EnquirydbModel.tblCandidateDetail" Role="tblCandidateDetail" Multiplicity="0..1" />
+          <End Type="EnquirydbModel.tblEducationDetail" Role="tblEducationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCandidateDetail">
+              <PropertyRef Name="Candidate_id" />
+            </Principal>
+            <Dependent Role="tblEducationDetail">
+              <PropertyRef Name="Candidate_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EnquirydbModelStoreContainer" CdmEntityContainer="EnquirydbEntities">
+          <EntitySetMapping Name="tblCandidateDetails">
+            <EntityTypeMapping TypeName="EnquirydbModel.tblCandidateDetail">
+              <MappingFragment StoreEntitySet="tblCandidateDetails">
+                <ScalarProperty Name="Candidate_id" ColumnName="Candidate_id" />
+                <ScalarProperty Name="Candidate_name" ColumnName="Candidate_name" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="emailId" ColumnName="emailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblEnquiries">
+            <EntityTypeMapping TypeName="EnquirydbModel.tblEnquiry">
+              <MappingFragment StoreEntitySet="tblEnquiry">
+                <ScalarProperty Name="Enquiry_id" ColumnName="Enquiry_id" />
+                <ScalarProperty Name="Enquiry_name" ColumnName="Enquiry_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblEnquiryDetails">
+            <EntityTypeMapping TypeName="EnquirydbModel.tblEnquiryDetail">
+              <MappingFragment StoreEntitySet="tblEnquiryDetails">
+                <ScalarProperty Name="Enquiry_id" ColumnName="Enquiry_id" />
+                <ScalarProperty Name="Candidate_id" ColumnName="Candidate_id" />
+                <ScalarProperty Name="Enquiry_Date" ColumnName="Enquiry_Date" />
+                <ScalarProperty Name="EnquiryFor" ColumnName="EnquiryFor" />
+                <ScalarProperty Name="Lead_sources" ColumnName="Lead_sources" />
+                <ScalarProperty Name="EnquiryBy" ColumnName="EnquiryBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblInformations">
+            <EntityTypeMapping TypeName="EnquirydbModel.tblInformation">
+              <MappingFragment StoreEntitySet="tblInformation">
+                <ScalarProperty Name="Information_id" ColumnName="Information_id" />
+                <ScalarProperty Name="Information_form" ColumnName="Information_form" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTrainings">
+            <EntityTypeMapping TypeName="EnquirydbModel.tblTraining">
+              <MappingFragment StoreEntitySet="tblTraining">
+                <ScalarProperty Name="Training_id" ColumnName="Training_id" />
+                <ScalarProperty Name="Training_course" ColumnName="Training_course" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="viewDetails">
+            <EntityTypeMapping TypeName="EnquirydbModel.viewDetail">
+              <MappingFragment StoreEntitySet="viewDetails">
+                <ScalarProperty Name="Candidate_id" ColumnName="Candidate_id" />
+                <ScalarProperty Name="Candidate_name" ColumnName="Candidate_name" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="emailId" ColumnName="emailId" />
+                <ScalarProperty Name="Enquiry_id" ColumnName="Enquiry_id" />
+                <ScalarProperty Name="Enquiry_Date" ColumnName="Enquiry_Date" />
+                <ScalarProperty Name="EnquiryFor" ColumnName="EnquiryFor" />
+                <ScalarProperty Name="Lead_sources" ColumnName="Lead_sources" />
+                <ScalarProperty Name="EnquiryBy" ColumnName="EnquiryBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblEducationDetails">
+            <EntityTypeMapping TypeName="EnquirydbModel.tblEducationDetail">
+              <MappingFragment StoreEntitySet="tblEducationDetails">
+                <ScalarProperty Name="Institute_name" ColumnName="Institute_name" />
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+                <ScalarProperty Name="Medium" ColumnName="Medium" />
+                <ScalarProperty Name="SpecilazationCourse" ColumnName="SpecilazationCourse" />
+                <ScalarProperty Name="Specialization" ColumnName="Specialization" />
+                <ScalarProperty Name="Qualification" ColumnName="Qualification" />
+                <ScalarProperty Name="Passing_year" ColumnName="Passing_year" />
+                <ScalarProperty Name="University" ColumnName="University" />
+                <ScalarProperty Name="Candidate_id" ColumnName="Candidate_id" />
+                <ScalarProperty Name="Education_id" ColumnName="Education_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="EnquirydbModelStoreContainer" CdmEntityContainer="EnquirydbEntities">
+    <EntitySetMapping Name="tblCandidateDetails">
+      <EntityTypeMapping TypeName="EnquirydbModel.tblCandidateDetail">
+        <MappingFragment StoreEntitySet="tblCandidateDetails">
+          <ScalarProperty Name="Candidate_id" ColumnName="Candidate_id" />
+          <ScalarProperty Name="Candidate_name" ColumnName="Candidate_name" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="emailId" ColumnName="emailId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblEnquiries">
+      <EntityTypeMapping TypeName="EnquirydbModel.tblEnquiry">
+        <MappingFragment StoreEntitySet="tblEnquiry">
+          <ScalarProperty Name="Enquiry_id" ColumnName="Enquiry_id" />
+          <ScalarProperty Name="Enquiry_name" ColumnName="Enquiry_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblEnquiryDetails">
+      <EntityTypeMapping TypeName="EnquirydbModel.tblEnquiryDetail">
+        <MappingFragment StoreEntitySet="tblEnquiryDetails">
+          <ScalarProperty Name="Enquiry_id" ColumnName="Enquiry_id" />
+          <ScalarProperty Name="Candidate_id" ColumnName="Candidate_id" />
+          <ScalarProperty Name="Enquiry_Date" ColumnName="Enquiry_Date" />
+          <ScalarProperty Name="EnquiryFor" ColumnName="EnquiryFor" />
+          <ScalarProperty Name="Lead_sources" ColumnName="Lead_sources" />
+          <ScalarProperty Name="EnquiryBy" ColumnName="EnquiryBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblInformations">
+      <EntityTypeMapping TypeName="EnquirydbModel.tblInformation">
+        <MappingFragment StoreEntitySet="tblInformation">
+          <ScalarProperty Name="Information_id" ColumnName="Information_id" />
+          <ScalarProperty Name="Information_form" ColumnName="Information_form" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblTrainings">
+      <EntityTypeMapping TypeName="EnquirydbModel.tblTraining">
+        <MappingFragment StoreEntitySet="tblTraining">
+          <ScalarProperty Name="Training_id" ColumnName="Training_id" />
+          <ScalarProperty Name="Training_course" ColumnName="Training_course" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="viewDetails">
+      <EntityTypeMapping TypeName="EnquirydbModel.viewDetail">
+        <MappingFragment StoreEntitySet="viewDetails">
+          <ScalarProperty Name="Candidate_id" ColumnName="Candidate_id" />
+          <ScalarProperty Name="Candidate_name" ColumnName="Candidate_name" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="emailId" ColumnName="emailId" />
+          <ScalarProperty Name="Enquiry_id" ColumnName="Enquiry_id" />
+          <ScalarProperty Name="Enquiry_Date" ColumnName="Enquiry_Date" />
+          <ScalarProperty Name="EnquiryFor" ColumnName="EnquiryFor" />
+          <ScalarProperty Name="Lead_sources" ColumnName="Lead_sources" />
+          <ScalarProperty Name="EnquiryBy" ColumnName="EnquiryBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblEducationDetails">
+      <EntityTypeMapping TypeName="EnquirydbModel.tblEducationDetail">
+        <MappingFragment StoreEntitySet="tblEducationDetails">
+          <ScalarProperty Name="Institute_name" ColumnName="Institute_name" />
+          <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+          <ScalarProperty Name="Medium" ColumnName="Medium" />
+          <ScalarProperty Name="SpecilazationCourse" ColumnName="SpecilazationCourse" />
+          <ScalarProperty Name="Specialization" ColumnName="Specialization" />
+          <ScalarProperty Name="Qualification" ColumnName="Qualification" />
+          <ScalarProperty Name="Passing_year" ColumnName="Passing_year" />
+          <ScalarProperty Name="University" ColumnName="University" />
+          <ScalarProperty Name="Candidate_id" ColumnName="Candidate_id" />
+          <ScalarProperty Name="Education_id" ColumnName="Education_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

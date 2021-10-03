@@ -1,0 +1,419 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script>
+        var  Enquiry=[];
+        var information = [];
+        var training = [];
+        var eductiondt = [];
+        var data = [];
+        $(document).ready(function () {
+            clareData();
+            GetEnquiryFor();
+            GetInformation();
+            GetTraining();
+
+            $("#btnadd").click(function () {
+                alert();
+                AddEductionDetails();
+            })
+
+            $("#btnsubmit").click(function () {
+                AddCandidateDetails();
+            })
+        })
+
+        function validation(d)
+        {
+            var status = true;
+            if (d != "")
+            {
+                status = true;
+            }
+            else
+            {
+                alert("Date is required");
+                status = false;
+
+            }
+            return status;
+        }
+
+        function  GetEnquiryFor()
+        {
+            $.ajax({
+                url: '/Student/GetEnquiryFor',
+                method: 'get',
+                contentType: 'application/json',
+                success: function (resp) {
+                    $.each(resp, function (i, d) {
+                        $("#item1").append("<div class=col-md-4><input type=checkbox value=" + d.Enquiry_id + " onchange=selectenquiryFor(" + d.Enquiry_id + ")>"   + d.Enquiry_name + "</div>");
+                    })
+                }
+            })
+        }
+        
+        function selectenquiryFor(i)
+        {
+            if(Enquiry.indexOf(i)==-1)
+            {
+                Enquiry.push(i);
+            }
+            else {
+                Enquiry.splice(Enquiry.indexOf(i), 1);
+            }
+            console.log(Enquiry);
+        }
+
+        function GetInformation() {
+            $.ajax({
+                url: '/Student/GetInformation',
+                method: 'get',
+                contentType: 'application/json',
+                success: function (resp) {
+                    $.each(resp, function (i, d) {
+                     
+                        $("#item2").append("<div class=col-md-4><input type=checkbox value=" + d.Information_id + " onchange=selectinfor(" + d.Information_id + ")>" + d.Information_form + "</div>");
+                    })
+                }
+            })
+        }
+
+        function selectinfor(q)
+        {
+            if (information.indexOf(q) == -1)
+            {
+                information.push(q);
+            }
+            else
+            {
+                information.splice(information.indexOf(q), 1);
+            }
+            console.log(information);
+        }
+
+        function GetTraining()
+        {
+            $.ajax({
+                url: '/Student/GetTraining',
+                method: 'get',
+                contentType: 'application/json',
+                success:function(resp)
+                {
+                    $.each(resp, function (i, d) {
+                        $("#item3").append("<div class=col-md-4><input type=checkbox value=" + d.Training_id + " onchange=selecttraining(" + d.Training_id + ")>" + d.Training_course + "</div>")
+                    })
+                }
+            })
+        }
+        function selecttraining(t)
+        {
+          
+            if(training.indexOf(t)==-1)
+            {
+                training.push(t);
+            }
+            else
+            {
+                training.splice(training.indexOf(t), 1);
+            }
+            console.log(training);
+        }
+        function AddEductionDetails()
+        {
+            var u = $("#txtuname").val();
+            var a = $("#txtpyear").val();
+            var q = $("#txtqli").val();
+            var p = $("#txtspecialization").val();
+            var spc = $("#txtspecour").val();
+            var m = $("#txtmedium").val();
+            var pp = $("#txtpercentage").val();
+            var i = $("#txtinstutename").val();
+
+            var st = { "University": u, "Passing_year": a, "Medium": m, "Qualification": q, "Specialization": p, "SpecilazationCourse": spc, "Percentage": pp, "Institute_name": i };           
+            eductiondt.push(st);
+            display();
+        }
+        function display()
+        {
+            $("#tbldata").empty();
+            $.each(eductiondt, function (i, d) {
+                $("#tbldata").append("<tr><td>" + (i + 1) + "</td><td>" + d.University + "</td><td>" + d.Qualification + "</td><td>" + d.Specialization + "</td><td>" + d.Medium + "</td><td>" + d.Percentage + "</td><td>" + d.SpecilazationCourse + "</td><td>" + d.Institute_name + "</td></tr>")
+            })
+        }
+        function AddCandidateDetails() {
+            var d = $("#txtdate").val();
+            var e = "";
+            var s = "";
+            var t = "";
+
+            $.each(Enquiry, function (i, d) {
+                e = e + "," + d;
+            })
+            e = e.substring(1, e.length);
+
+
+            $.each(information, function (i, d) {
+                s = s + "," + d;
+            })
+            s = s.substring(1, s.length);
+
+            $.each(training, function (i, d) {
+                t = t + "," + d;
+            })
+            t = t.substr(1, t.length);
+
+            if (validation(d)) {
+
+            var st = { "Enquiry_Date": d, "EnquiryFor": e, "Lead_sources": s, "EnquiryBy": t };
+            data.push(st);
+
+            var c = $("#txtcname").val();
+            var m = $("#txtmobile").val();
+            var a = $("#txtaddress").val();
+            var e = $("#txtemail").val();
+
+
+                var st = { "Candidate_name": c, "Mobile": m, "Address": a, "emailId": e, "tblEducationDetails": eductiondt, "tblEnquiryDetails": data }
+
+                console.log(st);
+
+                $.ajax({
+                    url: '/Student/AddCandidateDetails',
+                    method: 'post',
+                    data: JSON.stringify(st),
+                    contentType: 'application/json',
+                    success: function (resp) {
+                        alert(resp);
+                        clareData();
+                    }
+                })
+            }
+        }
+
+        function clareData()
+        {
+          $("#txtuname").val("");
+          $("#txtpyear").val("");
+          $("#txtqli").val("");
+          $("#txtspecialization").val("");
+          $("#txtspecour").val("");
+          $("#txtmedium").val("");
+          $("#txtpercentage").val("");
+          $("#txtinstutename").val("");
+          $("#txtdate").val("");
+          e = "";
+          s = "";
+          t = "";
+
+          $("#txtcname").val("");
+          $("#txtmobile").val("");
+          $("#txtaddress").val("");
+          $("#txtemail").val("");
+        }
+
+    </script>
+</head>
+<body>
+    <h1 style="text-align:center">Enquiry Form</h1><br/><br/>
+    <div class="container"> 
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <div class="row">
+                      
+                            <div class="col-md-3" style="text-align:left;margin-top:20px">@Html.ActionLink("Details", "Display", "Student", "", new { @class = "btn btn-primary" })</div>
+                           <div class="col-md-6"><h2 style="text-align:center">Candidate Details</h2></div>
+                            <div class="col-md-3" style="text-align:right;margin-top:20px"><label>Date : &nbsp;&nbsp;</label><input type="date" id="txtdate" /></div>
+                      
+                    </div>               
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Candidate Name</label>
+                        <input type="text" id="txtcname" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Mobile</label>
+                        <input type="text" id="txtmobile" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" id="txtaddress" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Email Id</label>
+                        <input type="text" id="txtemail" class="form-control" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*===================================================tbleductionDetails=====================================*@
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-9"><h2 style="text-align:center">Education Details</h2></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Institute/University Name</label>
+                            <input type="text" id="txtuname" class="form-control" />
+                        </div>
+                    </div>
+                  
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Passing Year</label>
+                            <input type="text" id="txtpyear" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Qualification</label>
+                            <input type="text" id="txtqli" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Specialization</label>
+                            <input type="text" id="txtspecialization" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Specialization Course</label>
+                            <input type="text" id="txtspecour" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Medium</label>
+                            <input type="text" id="txtmedium" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Percenatege</label>
+                            <input type="text" id="txtpercentage" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Institute Name</label>
+                            <input type="text" id="txtinstutename" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <p style="text-align:right;padding-right:100px;margin-top:30px;">
+                                <input type="button" id="btnadd" value="Add" class="btn btn-success" />
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="col-md-12">
+                <table class="table table-responsive">
+                    <thead style="background-color:#f0f0f0">
+                        <tr>
+                            <th>Sr.no</th>
+                            <th>Institute/University Name</th>
+                            <th>Qualification</th>
+                            <th>Spcialization</th>
+                            <th>Medium</th>
+                            <th>Percentage</th>
+                            <th>Specalization Course</th>
+                            <th>Institute Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbldata"></tbody>
+                </table>
+            </div>
+        </div>
+      
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-9"><h2 style="text-align:center">Enquiry For</h2></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <span id="item1"></span>
+            </div>
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-9"><h2 style="text-align:center">How did you come to know about us ?</h2></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <span id="item2"></span>
+            </div>
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-9"><h2 style="text-align:center">Take Your interesting Training </h2></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <span id="item3"></span>
+            </div> 
+            <div class="panel-footer">
+                <div style=" text-align:right">
+                    <input type="button" value="Submit" id="btnsubmit" class="btn btn-primary" />
+                    &nbsp;
+                    <input type="button" value="Clear" id="btnclear" class="btn btn-danger" />
+                </div>
+            </div>         
+        </div>
+       
+        </div>
+</body>
+</html>

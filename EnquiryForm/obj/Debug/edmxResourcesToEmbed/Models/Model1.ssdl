@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EnquirydbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tblCandidateDetails">
+    <Key>
+      <PropertyRef Name="Candidate_id" />
+    </Key>
+    <Property Name="Candidate_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Candidate_name" Type="varchar" MaxLength="100" />
+    <Property Name="Mobile" Type="varchar" MaxLength="100" />
+    <Property Name="Address" Type="varchar" MaxLength="100" />
+    <Property Name="emailId" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="tblEducationDetails">
+    <Key>
+      <PropertyRef Name="Education_id" />
+    </Key>
+    <Property Name="Education_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Candidate_id" Type="int" />
+    <Property Name="University" Type="varchar" MaxLength="100" />
+    <Property Name="Passing_year" Type="int" />
+    <Property Name="Qualification" Type="varchar" MaxLength="100" />
+    <Property Name="Specialization" Type="varchar" MaxLength="100" />
+    <Property Name="SpecilazationCourse" Type="varchar" MaxLength="100" />
+    <Property Name="Medium" Type="varchar" MaxLength="100" />
+    <Property Name="Percentage" Type="float" />
+    <Property Name="Institute_name" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="tblEnquiry">
+    <Key>
+      <PropertyRef Name="Enquiry_id" />
+    </Key>
+    <Property Name="Enquiry_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Enquiry_name" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="tblEnquiryDetails">
+    <Key>
+      <PropertyRef Name="Enquiry_id" />
+    </Key>
+    <Property Name="Enquiry_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Candidate_id" Type="int" />
+    <Property Name="Enquiry_Date" Type="date" />
+    <Property Name="EnquiryFor" Type="varchar" MaxLength="100" />
+    <Property Name="Lead_sources" Type="varchar" MaxLength="100" />
+    <Property Name="EnquiryBy" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="tblInformation">
+    <Key>
+      <PropertyRef Name="Information_id" />
+    </Key>
+    <Property Name="Information_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Information_form" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="tblTraining">
+    <Key>
+      <PropertyRef Name="Training_id" />
+    </Key>
+    <Property Name="Training_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Training_course" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'Enquirydb.dbo.viewDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="viewDetails">
+    <Key>
+      <PropertyRef Name="Candidate_id" />
+      <PropertyRef Name="Enquiry_id" />
+    </Key>
+    <Property Name="Candidate_id" Type="int" Nullable="false" />
+    <Property Name="Candidate_name" Type="varchar" MaxLength="100" />
+    <Property Name="Mobile" Type="varchar" MaxLength="100" />
+    <Property Name="Address" Type="varchar" MaxLength="100" />
+    <Property Name="emailId" Type="varchar" MaxLength="100" />
+    <Property Name="Enquiry_id" Type="int" Nullable="false" />
+    <Property Name="Enquiry_Date" Type="date" />
+    <Property Name="EnquiryFor" Type="varchar" MaxLength="100" />
+    <Property Name="Lead_sources" Type="varchar" MaxLength="100" />
+    <Property Name="EnquiryBy" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <Association Name="jkl">
+    <End Role="tblCandidateDetails" Type="Self.tblCandidateDetails" Multiplicity="0..1" />
+    <End Role="tblEducationDetails" Type="Self.tblEducationDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCandidateDetails">
+        <PropertyRef Name="Candidate_id" />
+      </Principal>
+      <Dependent Role="tblEducationDetails">
+        <PropertyRef Name="Candidate_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="sd">
+    <End Role="tblCandidateDetails" Type="Self.tblCandidateDetails" Multiplicity="0..1" />
+    <End Role="tblEnquiryDetails" Type="Self.tblEnquiryDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCandidateDetails">
+        <PropertyRef Name="Candidate_id" />
+      </Principal>
+      <Dependent Role="tblEnquiryDetails">
+        <PropertyRef Name="Candidate_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EnquirydbModelStoreContainer">
+    <EntitySet Name="tblCandidateDetails" EntityType="Self.tblCandidateDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblEducationDetails" EntityType="Self.tblEducationDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblEnquiry" EntityType="Self.tblEnquiry" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblEnquiryDetails" EntityType="Self.tblEnquiryDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblInformation" EntityType="Self.tblInformation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblTraining" EntityType="Self.tblTraining" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="viewDetails" EntityType="Self.viewDetails" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [viewDetails].[Candidate_id] AS [Candidate_id], 
+    [viewDetails].[Candidate_name] AS [Candidate_name], 
+    [viewDetails].[Mobile] AS [Mobile], 
+    [viewDetails].[Address] AS [Address], 
+    [viewDetails].[emailId] AS [emailId], 
+    [viewDetails].[Enquiry_id] AS [Enquiry_id], 
+    [viewDetails].[Enquiry_Date] AS [Enquiry_Date], 
+    [viewDetails].[EnquiryFor] AS [EnquiryFor], 
+    [viewDetails].[Lead_sources] AS [Lead_sources], 
+    [viewDetails].[EnquiryBy] AS [EnquiryBy]
+    FROM [dbo].[viewDetails] AS [viewDetails]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="jkl" Association="Self.jkl">
+      <End Role="tblCandidateDetails" EntitySet="tblCandidateDetails" />
+      <End Role="tblEducationDetails" EntitySet="tblEducationDetails" />
+    </AssociationSet>
+    <AssociationSet Name="sd" Association="Self.sd">
+      <End Role="tblCandidateDetails" EntitySet="tblCandidateDetails" />
+      <End Role="tblEnquiryDetails" EntitySet="tblEnquiryDetails" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
